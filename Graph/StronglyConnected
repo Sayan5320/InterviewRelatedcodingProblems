@@ -1,15 +1,18 @@
+////////////Strongly connected graph/////////////////
+//Problem statement- write a program to find if the graph is strongly connected///////////////////
 
+//define a structure for graph
 class Graph 
 { 
     int V;    // No. of vertices 
-    list<int> *adj;    // An array of adjacency lists 
+    list<int> *adj;    //array list
   
     // Fills Stack with vertices (in increasing order of finishing 
     // times). The top element of stack has the maximum finishing  
     // time 
     void fillOrder(int v, bool visited[], stack<int> &Stack); 
   
-    // A recursive function to print DFS starting from v 
+   
     void DFSUtil(int v, bool visited[]); 
 public: 
     Graph(int V); 
@@ -29,7 +32,8 @@ Graph::Graph(int V)
     adj = new list<int>[V]; 
 } 
   
-// A recursive function to print DFS starting from v 
+// A recursive function to print DFS starting from v
+
 void Graph::DFSUtil(int v, bool visited[]) 
 { 
     // Mark the current node as visited and print it 
@@ -78,8 +82,7 @@ void Graph::fillOrder(int v, bool visited[], stack<int> &Stack)
     Stack.push(v); 
 } 
   
-// The main function that finds and prints all strongly connected  
-// components 
+// The main function that finds and prints all connected components
 void Graph::printSCCs() 
 { 
     stack<int> Stack; 
@@ -102,14 +105,14 @@ void Graph::printSCCs()
         visited[i] = false; 
   
     // Now process all vertices in order defined by Stack 
-    while (Stack.empty() == false) 
+    while(stack.top())
     { 
         // Pop a vertex from stack 
         int v = Stack.top(); 
         Stack.pop(); 
   
         // Print Strongly connected component of the popped vertex 
-        if (visited[v] == false) 
+        if (!visited[v]) 
         { 
             gr.DFSUtil(v, visited); 
             cout << endl; 
