@@ -1,4 +1,13 @@
-*LCS*
+/////////////////////Largest Continuous Subsequence//////////////////////
+//LCS Problem Statement: Given two sequences, find the length of longest subsequence present in both of them.
+//A subsequence is a sequence that appears in the same relative order, but not necessarily contiguous. 
+//For example, “abc”, “abg”, “bdf”, “aeg”, ‘”acefg”, .. etc are subsequences of “abcdefg”.
+//Variation of this problem in generally asked in many coding round for dream companies
+
+//below added 3 different use cases of this problem using Dynamic Programming
+
+//1. Simple Largest Continuous Subsequence using Dynamic Programming in C++
+
 int lcs( char *X, char *Y, int m, int n )  
 {  
     int L[m + 1][n + 1];  
@@ -24,8 +33,9 @@ int lcs( char *X, char *Y, int m, int n )
 
 
 
+//2. Simple Largest Continuous Subsequence using Dynamic Programming in C++ 
 
-*print lcs*// using backtracking to previous op dowm matrix obtained
+//used backtracking to previous op dowm matrix obtained for printing the elements in LCS
  {  int index = L[m][n]; 
    char lcs[index+1]; 
    lcs[index] = '\0';
@@ -53,10 +63,7 @@ int lcs( char *X, char *Y, int m, int n )
 } 
 
 
-
-
-
-*LIS*
+//3. Simple Longest Increasing Subsequence using Dynamic Programming in C++
 int lis( int arr[], int n )  
 {  
     int lis[n]; 
@@ -73,4 +80,5 @@ int lis( int arr[], int n )
     }  
     return *max_element(lis, lis+n); 
 }  
- 
+
+//code contributed by Sharmila Biswas
