@@ -1,0 +1,53 @@
+int Solution::largestRectangleArea(vector &A) {
+if(A.size() == 1)return A[0];
+int n = A.size();
+int left[n],right[n];
+stack s;
+
+for(int i = 0;i<n;i++){
+    if(s.empty()){
+        left[i] = -1;
+    }
+    else{
+        while(!s.empty() and A[s.top()] >= A[i]){
+            s.pop();
+            }
+        if(s.empty()){
+            left[i] = -1;
+            }
+        else{
+            left[i] = s.top();
+            }
+        }
+    s.push(i);
+}
+while(!s.empty()){
+    s.pop();
+}
+
+for(int i = n-1;i>=0;i--){
+    if(s.empty()){
+        right[i] = n;
+    }
+    else{
+        while(!s.empty() and A[s.top()] >= A[i]){
+            s.pop();
+        }
+        // right me isley le rhe h kyuki hum phir poora right side le lenge
+        // let's suppose the element donot have any smaller element in the right it means
+        // all element in the right are greater....so intead of -1 we will take the whole length
+        if(s.empty()){
+            right[i] = n;
+        }
+        else{
+            right[i] = s.top();
+        }
+    }
+    s.push(i);
+}
+int ans = 0;
+for(int i = 0;i<n;i++){
+    ans = max(ans,(right[i] - left[i]-1)*A[i]);
+}
+return ans;
+}

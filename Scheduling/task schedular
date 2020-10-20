@@ -1,0 +1,33 @@
+///////////////////////////////task schedular////////////////////////////////////////
+
+class Solution {
+public:
+    int leastInterval(vector<char>& tasks, int n) {
+        int m = tasks.size();
+        vector<int> a(26);
+        for(auto x:tasks)a[x-'A']++;
+        int mx = 0,tot = 0;
+        for(auto y:a){
+            mx = max(mx,y);
+            tot += y;
+        }
+        if(mx==1)return tot;
+        int ans = 0;
+        tot -= mx;
+        int cnt=0;
+        for(int z:a){
+            if(z==mx){tot -= 1;cnt++;}
+        }
+        tot++;
+        int s = tot/(mx-1);
+        if(s>=n){
+            ans += tot;
+        }
+        else{
+            int idles = (mx-1)*n;
+            ans += (mx-1)*n; 
+        }
+        ans += mx+cnt-1;
+        return ans;
+    }
+};

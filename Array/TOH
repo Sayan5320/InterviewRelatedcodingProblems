@@ -1,0 +1,9 @@
+int solveTOH(int n//no of plates, int s, int d, int h)
+{
+if(A.size()==1) cout<<"s"<<"d";
+else 
+solveTOH(n-1,s, h, d);
+cout<<"mainplate"<<"s"<<"d";
+solveTOH(n-1,h,d,s);
+return ;
+}

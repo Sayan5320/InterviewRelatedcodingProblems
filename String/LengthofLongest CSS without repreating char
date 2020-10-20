@@ -1,0 +1,97 @@
+/////////////////////////O(n3)////////////////////////////////////
+bool areDistinct(string str, int i, int j) 
+{ 
+  
+    // Note : Default values in visited are false 
+    vector<bool> visited(26); 
+  
+    for (int k = i; k <= j; k++) { 
+        if (visited[str[k] - 'a'] == true) 
+            return false; 
+        visited[str[k] - 'a'] = true; 
+    } 
+    return true; 
+} 
+  
+// Returns length of the longest substring 
+// with all distinct characters. 
+int longestUniqueSubsttr(string str) 
+{ 
+    int n = str.size(); 
+    int res = 0; // result 
+    for (int i = 0; i < n; i++) 
+        for (int j = i; j < n; j++) 
+            if (areDistinct(str, i, j)) 
+                res = max(res, j - i + 1); 
+    return res; 
+} 
+
+/////////////////////////O(n2)//////////////////////////////////
+
+int longestUniqueSubsttr(string str) 
+{ 
+    int n = str.size(); 
+    int res = 0; // result 
+  
+    for (int i = 0; i < n; i++) { 
+          
+        // Note : Default values in visited are false 
+        vector<bool> visited(256);    
+  
+        for (int j = i; j < n; j++) { 
+  
+            // If current character is visited 
+            // Break the loop 
+            if (visited[str[j]] == true) 
+                break; 
+  
+            // Else update the result if 
+            // this window is larger, and mark 
+            // current character as visited. 
+            else { 
+                res = max(res, j - i + 1); 
+                visited[str[j]] = true; 
+            } 
+        } 
+  
+        // Remove the first character of previous 
+        // window 
+        visited[str[i]] = false; 
+    } 
+    return res; 
+} 
+
+/////////////////////////(On1)//////////////////////////////////
+-----------------using extra space------------------------------
+
+int longestUniqueSubsttr(string str) 
+{ 
+    int n = str.size(); 
+  
+    int res = 0; // result 
+  
+    // last index of all characters is initialized 
+    // as -1 
+    vector<int> lastIndex(NO_OF_CHARS, -1); 
+  
+    // Initialize start of current window 
+    int i = 0; 
+  
+    // Move end of current window 
+    for (int j = 0; j < n; j++) { 
+  
+        // Find the last index of str[j] 
+        // Update i (starting index of current window) 
+        // as maximum of current value of i and last 
+        // index plus 1 
+        i = max(i, lastIndex[str[j]] + 1); 
+  
+        // Update result if we get a larger window 
+        res = max(res, j - i + 1); 
+  
+        // Update last index of j. 
+        lastIndex[str[j]] = j; 
+    } 
+    return res; 
+} 
+  

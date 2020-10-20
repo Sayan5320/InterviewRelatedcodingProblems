@@ -1,0 +1,17 @@
+///////////////////singel no II///////////////
+
+int Solution::singleNumber(const vector<int> &A) {
+    int first = 0;
+    int second = 0;
+    for(auto n:A){
+        first = (first ^ n) & ~second;
+        second = (second ^ n) & ~first;
+    }
+    return first;
+}
+
+/////////////trailing zero//////(one liner)//////////////////
+
+int Solution::solve(int A) {
+    return log2(A^(A&(A-1)));
+}

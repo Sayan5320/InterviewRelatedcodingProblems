@@ -1,0 +1,130 @@
+/////////////////////////quick sort///////////////////////////////////////
+void swap(int *a, int *b)
+{
+	int temp; 
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+ 
+// Partitioning the array on the basis of values at high as pivot value.
+int Partition(int a[], int low, int high)
+{
+	int pivot, index, i;
+	index = low;
+	pivot = high;
+ 
+	// Getting index of the pivot.
+	for(i=low; i < high; i++)
+	{
+		if(a[i] < a[pivot])
+		{
+			swap(&a[i], &a[index]);
+			index++;
+		}
+	}
+	// Swapping value at high and at the index obtained.
+	swap(&a[pivot], &a[index]);
+ 
+	return index;
+}
+ 
+// Random selection of pivot.
+int RandomPivotPartition(int a[], int low, int high)
+{
+	int pvt, n, temp;
+	n = rand();
+	// Randomizing the pivot value in the given subpart of array.
+	pvt = low + n%(high-low+1);
+ 
+	// Swapping pivot value from high, so pivot value will be taken as a pivot while partitioning.
+	swap(&a[high], &a[pvt]);
+ 
+	return Partition(a, low, high);
+}
+ 
+int QuickSort(int a[], int low, int high)
+{
+	int pindex;
+	if(low < high)
+	{
+		// Partitioning array using randomized pivot.
+		pindex = RandomPivotPartition(a, low, high);
+		// Recursively implementing QuickSort.
+		QuickSort(a, low, pindex-1);
+		QuickSort(a, pindex+1, high);
+	}
+	return 0;
+}
+
+
+//////////////////////merge sort/////////////////////////
+void mergesort(vector<int>& A, int p, int q)
+{ while(p<q)
+{int mid=p+(q-p)/2;
+merge(A,p,mid-1);
+merge(A,mid+1,q);
+merge(A,p,mid,q);}
+return;
+}
+void merge(vector<int> A, int p, int r,int q)
+{
+int B(A.size();
+int i,j,k;
+k=0,i=p,j=r+1;
+while(i<=r&&j<=q)
+  { if(A[i]<A[j]) {B[k++]=A[i++];}
+  else {B[k++]=A[j++];}
+  }
+while(i<=r)   {B[k++]=A[i++];}
+while(j<=q)   {B[k++]=A[j++];}
+//assigning modigied value
+for(int i=q;i>=p;i--)
+      {A[i]=B[k--];}
+}
+
+////////////////heap sort////////////////////////////////
+void heapify(int arr[], int n, int i) 
+{ 
+    int largest = i; 
+    int l = 2*i + 1;
+    int r = 2*i + 2; 
+  
+    // If left child is larger than root 
+    if (l < n && arr[l] > arr[largest]) 
+        largest = l; 
+  
+    if (r < n && arr[r] > arr[largest]) 
+        largest = r; 
+  
+    if (largest != i) 
+    { 
+        swap(arr[i], arr[largest]);
+        heapify(arr, n, largest); 
+    } 
+} 
+
+void heapSort(int arr[], int n) 
+{
+        for (int i = n / 2 - 1; i >= 0; i--) 
+        heapify(arr, n, i); 
+  //add in the heap new element
+    for (int i=n-1; i>0; i--) 
+    { 
+        swap(arr[0], arr[i]); 
+        heapify(arr, i, 0); 
+   // delete from the heap(swaping last and first element of a heap)     
+    } 
+} 
+  
+
+
+//////////////////selection sort///////////////////////////
+swapping with min value in the remaining
+
+/////////////////insertion sort///////////////////////////
+inserting in the sorted array initial
+
+///////////////bubble sort/////////////////////////////////
+
+///////////////bucket sort///////////////////////////////////

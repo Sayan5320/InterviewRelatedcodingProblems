@@ -1,0 +1,123 @@
+////////////////////////////longest widnow with max size without repeating char//////////////////////////
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_map<char,int> mp;
+        int mx=0,ln=0;
+        for(int i=0;i<s.length();i++)
+        {
+            if(mp[s[i]]>0 && ln>=i-mp[s[i]]+1){
+             ln=i-mp[s[i]]+1;
+                mp[s[i]]=i+1;
+                
+            }
+            else {
+                
+                mp[s[i]]=i+1;
+                ++ln;
+            }
+            mx=max(mx,ln);
+        }
+        return mx;
+    }
+};
+
+/////////////////////////wwildcard matching///////////////////////
+
+class Solution {
+public:
+bool isMatch(string s, string p) {
+int n=s.size(),m=p.size();
+s='#'+s;p='#'+p;
+bool dp[n+1][m+1];
+memset(dp,0,sizeof dp);
+dp[0][0]=1;
+for(int i=1;i<=m;i++) if(p[i]=='') dp[0][i]=dp[0][i-1];
+for(int i=1;i<=n;i++){
+for(int j=1;j<=m;j++){
+if(s[i]==p[j] or p[j]=='?') dp[i][j]=dp[i-1][j-1];
+if(p[j]=='') dp[i][j]=dp[i-1][j] or dp[i][j-1];
+}
+}
+return dp[n][m];
+
+}
+};
+
+////////////////////////////minwindow substring/////////////////////////////////
+check size if string A, where all char of string B is present
+
+ string minWindow(string s, string t) {
+        unordered_map<char,int>m;
+        string fin;
+        
+        if(s==t)return s;
+        if(s.size()<t.size())return "";
+        
+        for(auto i:t)m[i]--;
+        
+        int cnt=0,st=0,len=INT_MAX;
+        
+        for(int i=0;i<s.size();i++){
+           
+            if(m.find(s[i])!=m.end())
+            {
+                if(m[s[i]]<0)cnt++;
+                m[s[i]]++;
+            }
+            
+            while(st<s.size()&&cnt==t.size()){
+                
+                if(len>i-st+1){
+                    len=i-st+1;
+                    fin=s.substr(st,len);
+                }
+                
+              if(m.find(s[st])!=m.end())
+              {
+                  m[s[st]]--;
+                  if(m[s[st]]<0)
+                    cnt--;
+              }
+              st++;
+            }
+        }
+       
+        return fin;
+    }
+    
+    
+    /////////////////////implement strstr////////////////////////
+    
+    int Solution::strStr(const string A, const string B)
+{
+int i;
+for(i=0;i<A.length();i++)
+{
+string s=A.substr(i,B.length());
+if(s==B)
+{
+return i;
+break;
+}
+}
+return -1;
+}
+
+
+//////////////////min char required to make string palo=indrome(insertion at the start)//////////////////
+int Solution::solve(string A) {
+int n = A.size();
+int i = 0, j = n-1;
+while(i<=j)
+{
+while(A[j]!=A[i])j–;
+i++;
+j–;
+if(A[i]!=A[j]) i=0;
+}
+if(j<0)
+return n-1;
+return n-i-j-1;
+}

@@ -1,0 +1,220 @@
+//////////////////////////////////max area of a island/////////////////////////////////
+
+int x[8] = {-1,-1,0,1,1,1,0,-1};
+int y[8] = {0,1,1,1,0,-1,-1,-1};
+bool inrange(int i,int j,vector<vector<int>> &A){
+return (i>=0 && j>=0 && i<A.size() && j<A[0].size() && A[i][j]==1);
+}
+int dfs(int i,int j,vector<vector<int>> &A){
+A[i][j] = 0;
+int count = 1;
+for(int p=0;p<8;p++){
+    if(inrange(i+x[p],j+y[p],A)){
+        count+= dfs(i+x[p],j+y[p],A);
+    }
+}
+return count;
+}
+int Solution::solve(vector<vector<int> > &A) {
+int ans = INT_MIN;
+for(int i=0;i<A.size();i++){
+    for(int j=0;j<A[0].size();j++){
+        if(A[i][j]==1){
+            ans = max(ans,dfs(i,j,A));
+        }
+    }
+}
+return ans;
+}
+
+////////////////////////no of island(leetcode)///////////////////////////////
+
+
+    int numIslands(vector<vector<char>>& grid) {
+        if(grid.size()==0||grid[0].size()==0){
+            return 0;
+        }
+        int cnt=0;
+        int n=grid.size();
+        int m=grid[0].size();
+        int a[4]={0,0,-1,1};
+        int b[4]={1,-1,0,0};
+        vector<vector<bool>>s(n,vector<bool>(m,false));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]=='1'&&!s[i][j]){
+                    cnt++;
+                    queue<pair<int,int>>q;
+                    q.push({i,j});
+                    while(!q.empty()){
+                            auto x1=q.front();
+                            int x=x1.first;
+                            int y=x1.second;
+                            s[x][y]=true;
+                            for(int t=0;t<4;t++){
+                                if(x+a[t]>=0&&x+a[t]<n&&y+b[t]>=0&&y+b[t]<m&&!s[x+a[t]][y+b[t]]&&grid[x+a[t]][y+b[t]]=='1'){
+                                    q.push({x+a[t],y+b[t]});
+                                    s[x+a[t]][y+b[t]]=true;
+                                }
+                            }
+                            q.pop();
+                    }
+                }
+            }
+        }
+        return cnt;
+    }
+
+
+/////////////////////////no of  island//////////////////////////////////////////
+
+int n ,m;
+vector x={-1,1,0,0};
+vector y={0,0,-1,1};
+bool check(int i,int j){
+if(i<0 or i>=n or j<0 or j>=m) return false;
+return true;
+}
+void dfs(int i,int j,vector<vector<int>>& dp,vector<int>& A,int cnt){
+if(dp[i][j]!=-1 or A[i][j]=='O')
+return;
+dp[i][j]=cnt;
+for(int p=0;p<4;p++){
+if(check(i+x[p],j+y[p])){
+dfs(i+x[p],j+y[p],dp,A,cnt);
+}
+}
+}
+int Solution::black(vector <int> &A) {
+n=A.size(),m=A[0].size();
+vector<vector> dp(n+1,vector(m+1,-1));
+int cnt=0;
+for(int i=0;i<n;i++){
+for(int j=0;j<m;j++){
+if(dp[i][j]==-1 and A[i][j]=='X'){
+// cout<<i<<’ '<<j<<endl;
+cnt++;
+dfs(i,j,dp,A,cnt);
+}
+}
+}
+return cnt;
+}
+
+///////////////////////////////////water flow-dfs/////////////////////
+
+int dx[4] = {0,0,1,-1};
+int dy[4] = {1,-1,0,0}; 
+int ans = 0;
+void dfs(int i, int j, vector<vector<int> > &A, vector<vector<bool> > &blue,vector<vector<bool> > &red ){
+    if(red[i][j]){ 
+        // cout << i << ' ' << j << endl;
+        ans++;
+    }    
+    for(int next = 0; next<4; next++){
+        
+        int x = i + dx[next];
+        int y = j + dy[next];
+        
+        if(x>=0 and y>=0 and x<A.size() and y<A[0].size() ){
+    
+            if( A[i][j]<=A[x][y] and blue[x][y]==0){
+                blue[x][y] = 1;
+                dfs(x,y, A, blue, red);
+            }
+                
+        }
+    }
+    
+}
+
+int Solution::solve(vector<vector<int> > &A) {
+    vector<vector<bool> > blue(A.size(), vector<bool>(A[0].size(),0));
+    vector<vector<bool> > red(A.size(), vector<bool>(A[0].size(),0));
+    ans = 0;
+    int N = A.size();
+    int M = A[0].size();
+    for(int i=0; i<N; i++){
+        if(blue[i][0] == 0){
+            blue[i][0] = 1;
+            dfs( i,0, A, blue, red);
+        }
+    }
+    
+    for(int i=0; i<M; i++)
+        if(blue[0][i] == 0){
+            blue[0][i] = 1;
+            dfs(0, i, A, blue, red);
+        }
+    
+    for(int i=0; i<M; i++){
+        if(red[N-1][i]==0){
+            red[N-1][i] = 1;
+            dfs(N-1, i, A, red , blue );
+        }
+    }
+    
+    for(int i=0; i<N; i++){
+        if(red[i][M-1] == 0){
+            red[i][M-1] = 1;
+            dfs(i, M-1, A, red, blue);
+        }
+    }
+
+    return ans;
+}
+
+//////////////////////////////////smake and ladder problem/////////////////////////
+
+#define pb push_back
+#define ff first
+#define ss second
+int Solution::snakeLadder(vector<vector<int>> &A, vector<vector<int>> &B)
+{
+	vector<int> graph[101];
+	for (int i = 1; i <= 100; i++)
+	{
+		for (int j = i + 1; j <= 100 && j <= i + 6; j++)
+			graph[i].pb(j);
+	}
+	set<int> ladder;
+	for (int i = 0; i < A.size(); i++)
+	{
+		graph[A[i][0]].clear();
+		graph[A[i][0]].pb(A[i][1]);
+		ladder.insert(A[i][0]);
+	}
+	set<int> snake;
+	for (int i = 0; i < B.size(); i++)
+	{
+		graph[B[i][0]].clear();
+		graph[B[i][0]].pb(B[i][1]);
+		snake.insert(B[i][0]);
+	}
+	queue<pair<int, int>> q;
+	vector<int> moves(101, INT_MAX);
+	q.push({1, 0});
+	moves[1] = 0;
+	while (q.size())
+	{
+		pair<int, int> pr = q.front();
+		q.pop();
+		int node = pr.ff;
+		int moves_ = pr.ss;
+		int newMoves = moves_ + 1;
+		if (ladder.find(node) != ladder.end() || snake.find(node) != snake.end())
+			newMoves--;
+		for (int i = 0; i < graph[node].size(); i++)
+		{
+			int x = graph[node][i];
+			if (moves[x] > newMoves)
+			{
+				q.push({x, newMoves});
+				moves[x] = newMoves;
+			}
+		}
+	}
+	if (moves[100] == INT_MAX)
+		return -1;
+	return moves[100];
+}
