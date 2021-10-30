@@ -1,43 +1,23 @@
 class Solution {
 public:
-   set<vector<int>> s;
-    vector<vector<int>> soln;
-    void print(vector<int> vp)
-    {
-        sort(vp.begin(),vp.end());
-        s.insert(vp);
+   vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>>v;
+        vector<int>ans;
+        solve(0,candidates,v,ans,target);
+        return v;
     }
-
-void sum(vector<int> &A, int target,vector<int> &vp )
-   {
-       if(target==0)
-       {
-           print(vp);
-           return ;
-       }
-       if(target<0)
-        {
-            return ;
+    void solve(int idx,vector<int>&candidates,vector<vector<int>>&v,vector<int>&ans,int target){
+        if(idx==candidates.size()){
+            if(target==0){
+                v.push_back(ans);
+            }
+            return;
         }
-       for(int i=0;i<A.size();i++)
-       {
-           vp.push_back(A[i]);
-           sum(A,target-A[i],vp);
-           vp.pop_back();
-       }
-       return ;
-   }
-
-vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        vector<int> soln;
-        vector<vector<int>> ans;
-        int count =0;
-        sum(candidates,target,soln);
-        for(auto it1:this->s)
-        {
-            ans.push_back(it1);
+        if(candidates[idx]<=target){
+            ans.push_back(candidates[idx]);
+            solve(idx,candidates,v,ans,target-candidates[idx]);
+            ans.pop_back();
         }
-        return ans;
-
+        solve(idx+1,candidates,v,ans,target);
     }
 };
